@@ -14,7 +14,7 @@ enter the `frontend/` dir in this repo
 
 ### Run app
 
-    python -m SimpleHTTPServer 3000
+    rackup -p 3000
 
 then connect to:
 

@@ -1,0 +1,50 @@
+.six.column.box
+  %p
+    FlyEther lets you insure your flight directly with an ethereum smart contract
+  %p
+    The contract is resolved automatically on the Ethereum blockchain
+  %p
+    You can also apply to FlyEther an insurer and investor
+.six.column.box.blue.white-text
+  %h4 Enter your flight number
+  %input{:name => "flight_num", :placeholder => "ex: BA 2599", :type => "text"}/
+.insure_for.six.column.box.blue2.white-text
+  %h4 Insure for
+  %p.bold
+    £
+    %span.insure_amount_gbp 200
+  %p
+    %span.insure_amount_btc ...
+    BTC
+  %p
+    %span.insure_amount_eth ...
+    ETH
+  .spacer10
+  %input{:max => "440", :min => "90", :name => "insure_amount", :step => "10", :style => "width: 243px", :type => "range", :value => "200"}/
+.six.column.box.white.white-text
+  %input.insure.button.button-primary.btn-large{:type => "button", :value => "Insure"}/
+/
+  <div class="six column box blue2 white-text">
+  <h4>Pay with</h4>
+  <input class="button button-primary btn-large" type="button" value="Ethers">
+  <input class="button button-primary btn-large" type="button" value="Bitcoin">
+  </div>
+.step_2.hidden
+  .six.column.box
+    %h4 Deposit 250 ETH to address:
+    %img{:src => "./images/qrcode.gif", :width => "200px"}/
+    %p
+      %span.deposit_address
+        / loading...
+        0x0462838f4e30223d51310c9725c51217481141c2
+    %a.deposit-done.button.button-primary
+      temp: deposit done
+.step_3.hidden
+  .six.column.box.blue2.white-text.link-color-blue
+    %p Your flight has been insured!
+    .spacer20
+    %a.button.button-primary
+      Check the contract
+      %span.contract_number (loading...)
+  .six.column.box
+    %p Thanks for using FlyEther.
