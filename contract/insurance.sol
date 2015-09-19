@@ -1,0 +1,4 @@
+contract Insurance {
+  function() {
+  }
+}
