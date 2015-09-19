@@ -1,13 +1,12 @@
 var init_ether = function() {
    web3.setProvider(new web3.providers.HttpProvider('http://flyether:8545'));
+
+   // TODO: remove non useful code
    var coinbase = web3.eth.coinbase;
    var balance = web3.eth.getBalance(coinbase)
+   console.log("balance", Number(balance))
    web3.eth.accounts[0]
-   // console.log("accounts", account)
-   // console.log("balance", Number(balance))
-
 }
-
 
 var show_step = function(step) {
   $(".step_"+step).toggleClass("hidden")
@@ -26,7 +25,7 @@ var get_btc_gbp = function() {
     rates.gbp_btc = data.rate
     dom.trigger("rates_updated")
   })
-  $.getJSON("https://shaapeshift.io/marketinfo/btc_eth", function(data){
+  $.getJSON("https://shapeshift.io/marketinfo/btc_eth", function(data){
     rates.btc_eth = data.rate
     dom.trigger("rates_updated")
   })
@@ -49,6 +48,47 @@ var deposit_triggered = function() {
   show_step(3)
 }
 
+var run_contract = function() {
+
+  var abi = [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "x",
+          "type": "uint256"
+        }
+      ],
+      "name": "set",
+      "outputs": [],
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "get",
+      "outputs": [
+        {
+          "name": "retVal",
+          "type": "uint256"
+        }
+      ],
+      "type": "function"
+    }
+  ]
+
+  var contract_address = '0x22f05f34d9ef6ea8c672e688e838e7b9eee6ce89'
+
+  var Insurance = web3.eth.contract(abi)
+
+  var contract = Insurance.at(contract_address)
+
+  console.log(contract)
+
+  var result = contract.get()
+  console.log(Number(result)) // '0x25434534534'
+}
+
 $(function(){
   var btc_gbp = get_btc_gbp()
 
@@ -56,19 +96,20 @@ $(function(){
 
   dom.on("rates_updated", update_insured_totals)
 
-
   $(".button.insure"      ).on("click", do_insure)
   $(".button.deposit-done").on("click", deposit_triggered)
 
   var account
   init_ether()
 
+  console.log("accounts", account)
+
   $(".contract_number").html(account)
 
+  run_contract()
 })
 
 // eth.sendTransaction({from: '0x036a03fc47084741f83938296a1c8ef67f6e34fa', to: '0xa8ade7feab1ece71446bed25fa0cf6745c19c3d5', value: web3.toWei(1, "ether")})
-
 
 // compiling contracts
 //
@@ -76,57 +117,24 @@ $(function(){
 // contract = web3.eth.compile.solidity(source).test
 
 
+
 //
-
-
-// contract abi
-var abi = [{
-     name: 'myConstantMethod',
-     type: 'function',
-     constant: true,
-     inputs: [{ name: 'a', type: 'string' }],
-     outputs: [{name: 'd', type: 'string' }]
-}, {
-     name: 'myStateChangingMethod',
-     type: 'function',
-     constant: false,
-     inputs: [{ name: 'a', type: 'string' }, { name: 'b', type: 'int' }],
-     outputs: []
-}, {
-     name: 'myEvent',
-     type: 'event',
-     inputs: [
-       {name: 'a', type: 'int', indexed: true},
-       {name: 'b', type: 'bool', indexed: false}
-     ]
-}];
-
-// creation of contract object
-var MyContract = web3.eth.contract(abi);
-
-// initiate contract for an address
-var myContractInstance = MyContract.at('0xc4abd0339eb8d57087278718986382264244252f');
-
-// call constant function
-var result = myContractInstance.myConstantMethod('myParam');
-console.log(result) // '0x25434534534'
-
-// send a transaction to a function
-myContractInstance.myStateChangingMethod('someParam1', 23, {value: 200, gas: 2000});
-
-// short hand style
-web3.eth.contract(abi).at(address).myAwesomeMethod("antani");
-
-// create filter
-var filter = myContractInstance.myEvent({a: 5}, function (error, result) {
-  if (!error)
-    console.log(result);
-    /*
-    {
-        address: '0x8718986382264244252fc4abd0339eb8d5708727',
-        topics: "0x12345678901234567890123456789012", "0x0000000000000000000000000000000000000000000000000000000000000005",
-        data: "0x0000000000000000000000000000000000000000000000000000000000000001",
-        ...
-    }
-    */
-});
+// // send a transaction to a function
+// contract.myStateChangingMethod('someParam1', 23, {value: 200, gas: 2000});
+//
+// // short hand style
+// web3.eth.contract(abi).at(address).myAwesomeMethod("antani");
+//
+// // create filter
+// var filter = contract.myEvent({a: 5}, function (error, result) {
+//   if (!error)
+//     console.log(result);
+//     /*
+//     {
+//         address: '0x8718986382264244252fc4abd0339eb8d5708727',
+//         topics: "0x12345678901234567890123456789012", "0x0000000000000000000000000000000000000000000000000000000000000005",
+//         data: "0x0000000000000000000000000000000000000000000000000000000000000001",
+//         ...
+//     }
+//     */
+// });
