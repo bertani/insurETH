@@ -5,7 +5,7 @@ var init_ether = function() {
    var coinbase = web3.eth.coinbase;
    var balance = web3.eth.getBalance(coinbase)
    console.log("balance", Number(balance))
-   web3.eth.accounts[0]
+   return web3.eth.accounts[0]
 }
 
 var show_step = function(step) {
@@ -48,6 +48,12 @@ var deposit_triggered = function() {
   show_step(3)
 }
 
+var send_one = function(contract) {
+  contract.set.sendTransaction(10, function(err, data) {
+    console.log("sent_one", data)
+  })
+}
+
 var run_contract = function() {
 
   var abi = [
@@ -74,19 +80,43 @@ var run_contract = function() {
         }
       ],
       "type": "function"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "n",
+          "type": "uint256"
+        }
+      ],
+      "name": "log",
+      "type": "event"
     }
   ]
 
-  var contract_address = '0x22f05f34d9ef6ea8c672e688e838e7b9eee6ce89'
+  var contract_address = '0xd11d86a169f2f95fc4b3e5507a34967c5123d682'
+
 
   var Insurance = web3.eth.contract(abi)
 
   var contract = Insurance.at(contract_address)
 
+  window.contract = contract;
   console.log(contract)
 
   var result = contract.get()
-  console.log(Number(result)) // '0x25434534534'
+  console.log(Number(result))
+
+  // var result = contract.set(1)
+  // console.log(Number(result))
+
+  // var event = myContractInstance.MyEvent(0)
+  //
+  // event.watch(function(error, result){
+  //   if (!error)
+  //     console.log(result);
+  // });
 }
 
 $(function(){
@@ -100,9 +130,9 @@ $(function(){
   $(".button.deposit-done").on("click", deposit_triggered)
 
   var account
-  init_ether()
+  account = init_ether()
 
-  console.log("accounts", account)
+  console.log("account", account)
 
   $(".contract_number").html(account)
 
