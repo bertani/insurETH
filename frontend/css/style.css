@@ -1,0 +1,81 @@
+body {
+  font-family: Lato;
+}
+
+.box {
+  margin: 0 auto;
+  text-align: center;
+  padding-top:30px; padding-bottom:30px;
+  font-size: 20px;
+  color: #333333;
+  font-weight: 300;
+}
+
+.big_m {
+  padding-top:80px; padding-bottom:80px;
+
+}
+
+.clouds {
+  background: url('../images/clouds_bg.jpg');
+  background-size: cover;
+}
+
+.white-text {
+  color: white;
+}
+.white-text input  {
+  color: #222;
+}
+
+.white {
+  background: white;
+}
+
+.blue {
+  background: #224e9e;
+}
+.blue2 {
+  background: rgb(54, 134, 255);
+}
+.blue3 {
+  background: #36bfff;
+}
+
+p {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  /*line-height: 30px;*/
+}
+
+input[type=button].btn-white {
+  background: white;
+}
+
+input[type=button].btn-large {
+  width: 255px;
+}
+
+.link-color-blue a {
+  color: blue;
+}
+
+.spacer10 {
+  height: 10px
+}
+.spacer20 {
+  height: 20px
+}
+
+@font-face {
+  font-family: 'Lato';
+  src: url('../font/lato.ttf');
+}
+
+.hidden {
+  display: none;
+}
+
+.bold {
+  font-weight: bold;
+}
