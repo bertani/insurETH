@@ -76,6 +76,15 @@ contract Insurance {
 
   // returns percentage performance data about this investment
   function investment_ratio() returns (uint){
-    return 100;
+    uint insured_customers_funds = 0;
+    for (uint k=0; k<users_list_length; k++){
+      insured_customers_funds += users_balance[users_list[k]];
+    }
+    uint invested_total = 0;
+    for (k=0; k<investors_list_length; k++){
+      invested_total += investors_invested[investors_list[k]];
+    }
+    uint ratio = 100 * ((uint(address(this).balance) - insured_customers_funds)/invested_total);
+    return ratio;
   }
-}                  
+}                      
