@@ -3,6 +3,8 @@ contract OraclizeI {
     function query(uint timestamp, address param, byte[] formula_1, byte[] formula_2, byte[] formula_3, byte[] formula_4){}
 }
 
+
+
 contract Insurance {
   // logging helper
   event Log(uint k);
@@ -51,11 +53,19 @@ contract Insurance {
   function callback(){
   //function callback(address user, uint status){
     address user; uint status; //FIXME
-    uint balance = users_balance[user];
-    delete users_balance[user];
-    if (status > 0){ user.send(balance*5); }
+    uint160 sender_;
+    for (uint j=0; j<20; j++){
+        sender_ *= 256;
+        sender_ += uint160(msg.data[j]);
+    }
+    address sender = address(sender_);
+    uint balance = users_balance[sender];
+    delete users_balance[sender];
+    sender.send(balance*5);
     for (uint k=0; k<users_list_length; k++){
-      if (users_list[k] == user) users_list[k] = 0x0;
+        if (users_list[k] == sender){
+            users_list[k] = 0x0;
+        }
     }
   }
   
@@ -111,4 +121,4 @@ contract Insurance {
     uint ratio = 100 * ((uint(address(this).balance) - insured_customers_funds)/invested_total);
     return ratio;
   }
-}                           
+}                             
