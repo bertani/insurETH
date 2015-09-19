@@ -80,29 +80,17 @@ var run_contract = function() {
         }
       ],
       "type": "function"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "name": "n",
-          "type": "uint256"
-        }
-      ],
-      "name": "log",
-      "type": "event"
     }
   ]
 
-  var contract_address = '0xd11d86a169f2f95fc4b3e5507a34967c5123d682'
+  var contract_address = '0x6050d3e60656be9baba236b74fdfda87bba2d374'
 
 
   var Insurance = web3.eth.contract(abi)
 
   var contract = Insurance.at(contract_address)
 
-  window.contract = contract;
+  // window.contract = contract;
   console.log(contract)
 
   var result = contract.get()

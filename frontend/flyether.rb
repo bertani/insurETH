@@ -12,5 +12,9 @@ class FlyEther < Sinatra::Application
     haml :contract
   end
 
+  get "/playground" do
+    haml :playground, layout: false
+  end
+
   # web3.setProvider(new web3.providers.HttpProvider('http://flyether:8545')); var coinbase = web3.eth.coinbase;
 end
