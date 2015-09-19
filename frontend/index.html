@@ -32,6 +32,51 @@
 
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="six column box big_m clouds white-text">
+
+    <h1>FlyEther</h1>
+
+    <p>Insure your flight with Ethereum</p>
+  </div>
+  <div class="six column box">
+    <p>FlyEther lets you insure your flight directly with an ethereum smart contract
+    </p><p>
+    The contract is resolved automatically on the Ethereum blockchain
+    </p><p>
+    You can also apply to FlyEther an insurer and investor
+    </p>
+  </div>
+
+  <div class="six column box blue white-text">
+    <h4>Enter your flight number</h4>
+    <input name="flight_num" type="text" placeholder="ex: BA 2599">
+  </div>
+
+  <div class="insure_for six column box blue2 white-text">
+    <h4>Insure for</h4>
+
+    <p class="bold">£<span class="insure_amount_gbp">200</span></p>
+    <p><span class="insure_amount_btc">...</span> BTC</p>
+    <p><span class="insure_amount_eth">...</span> ETH</p>
+    <div class="spacer10"></div>
+    <input name="insure_amount" type="range" value="200" style="width: 243px" min="90" max="440" step="10">
+
+  </div>
+
+  <div class="six column box white white-text">
+    <input class="insure button button-primary btn-large" type="button" value="Insure">
+  </div>
+
+  <!-- <div class="six column box blue2 white-text">
+    <h4>Pay with</h4>
+    <input class="button button-primary btn-large" type="button" value="Ethers">
+    <input class="button button-primary btn-large" type="button" value="Bitcoin">
+  </div> -->
+
+
+  <script type="text/javascript" src="./bower_components/web3/dist/web3.js"></script>
+  <script type="text/javascript" src="./js/vendor/zepto.js"></script>
+  <script type="text/javascript" src="./js/flyether.js"></script>
 
 <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
