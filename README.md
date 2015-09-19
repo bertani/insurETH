@@ -6,15 +6,13 @@
 
 ## Frontend
 
-enter the `frontend/` dir in this repo
-
 ### Install dependencies
 
     bower install web3
 
 ### Run app
 
-    rackup -p 3000
+    python -m SimpleHTTPServer 3000
 
 then connect to:
 
