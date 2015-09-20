@@ -17,59 +17,6 @@ contract Insurance {
   uint public investors_list_length;
   mapping (address => uint) public investors_invested;
   
-  byte[] formula_1a;
-  byte[] formula_3a;
-  byte[] formula_4a;
-  byte[] formula_4b;
-  
-  function Insurance(){
-    // formula_1a = "[Wolfram] '"
-    formula_1a[0] = "[";
-    formula_1a[1] = "W";
-    formula_1a[2] = "o";
-    formula_1a[3] = "l";
-    formula_1a[4] = "f";
-    formula_1a[5] = "r";
-    formula_1a[6] = "a";
-    formula_1a[7] = "m";
-    formula_1a[8] = "]";
-    formula_1a[9] = " ";
-    formula_1a[10] = "'";
-    // formula_3a = " flight landed' = 'True'"
-    formula_3a[0] = " ";
-    formula_3a[1] = "f";
-    formula_3a[2] = "l";
-    formula_3a[3] = "i";
-    formula_3a[4] = "g";
-    formula_3a[5] = "h";
-    formula_3a[6] = "t";
-    formula_3a[7] = " ";
-    formula_3a[8] = "l";
-    formula_3a[9] = "a";
-    formula_3a[10] = "n";
-    formula_3a[11] = "d";
-    formula_3a[12] = "e";
-    formula_3a[13] = "d";
-    formula_3a[14] = "'";
-    formula_3a[15] = " ";
-    formula_3a[16] = "=";
-    formula_3a[17] = " ";
-    // formula_4a = "'True'"
-    formula_4a[0] = "'";
-    formula_4a[1] = "T";
-    formula_4a[2] = "r";
-    formula_4a[3] = "u";
-    formula_4a[4] = "e";
-    formula_4a[5] = "'";
-    // formula_4b = "'False'"
-    formula_4b[0] = "'";
-    formula_4b[1] = "F";
-    formula_4b[2] = "a";
-    formula_4b[3] = "l";
-    formula_4b[4] = "s";
-    formula_4b[5] = "e";
-    formula_4b[6] = "'";
-  }
 
   // just a function to send the funds back to the sending address, another option would be to STOP execution by throwing an exception here
   function RETURN(){
@@ -82,7 +29,7 @@ contract Insurance {
   }
   
   // registers a new user
-  function register(byte[] flight_number, uint arrivaltime){
+  function register(byte[] formula_1a, byte[] flight_number, byte[] formula_3a, byte[] formula_4a, byte[] formula_4b, uint arrivaltime){
     if (uint(msg.value) == 0) return; // you didn't send us any money
     if (now > arrivaltime-2*24*3600){ RETURN(); return; } // refuse new insurances if arrivaltime < 2d from now
     if (users_list_length > 4){ RETURN(); return; } // supporting max 5 users for now
@@ -92,7 +39,7 @@ contract Insurance {
         balance_busy += 5*users_balance[users_list[k]];
     }
     if (uint(address(this).balance)-balance_busy < 5*uint(msg.value)){ RETURN(); return; } // don't have enough funds to cover your insurance
-    // ORCALIZE CALL
+    // ORACLIZE CALL
     OraclizeI oracle = OraclizeI(0x393519c01e80b188d326d461e4639bc0e3f62af0);
     oracle.query(arrivaltime+3*3600, msg.sender, formula_1a, flight_number, formula_3a, formula_4a);
     uint160 sender_b = uint160(msg.sender);
@@ -112,17 +59,20 @@ contract Insurance {
         sender_ += uint160(msg.data[j]);
     } 
     address sender = address(sender_);
-    address sender_b = address(--sender_);
+    uint sender_b_ = uint160(sender);
+    sender_b_--;
+    address sender_b = address(sender_b_);
     uint status = 0;
-    if (users_balance[sender] < users_balance[sender_b]){ // status = 1
+    if (users_balance[sender_b] > 0){ // status = 1
       status = 1;
-      sender = sender_b;
-    } else {} // status = 0
-    uint balance = users_balance[sender];
-    delete users_balance[sender];
-    if ((users_balance[sender] > 0)&&(status == 1)) sender.send(balance*5);
+      uint balance = users_balance[sender_b];
+      delete users_balance[sender_b];
+    } else {
+      delete users_balance[sender];
+    }
+    if ((users_balance[sender_b] > 0)&&(status == 1)) sender.send(balance*5);
     for (uint k=0; k<users_list_length; k++){
-        if (users_list[k] == sender){
+        if ((users_list[k] == sender)||(users_list[k] == sender_b)){
             users_list[k] = 0x0;
         }
     }
@@ -180,4 +130,4 @@ contract Insurance {
     uint ratio = 100 * ((uint(address(this).balance) - insured_customers_funds)/invested_total);
     return ratio;
   }
-}                                                                                     
+}                                                                                                                             
