@@ -4,6 +4,12 @@ class FlyEther < Sinatra::Application
   set :public_folder, '.'
   set :views, "#{APP_PATH}/views"
 
+  helpers do
+    def body_class
+      request.path.split("/")[1] || "register"
+    end
+  end
+
   get "/" do
     # genera indirizzo
     haml :index
@@ -22,32 +28,32 @@ class FlyEther < Sinatra::Application
   # SSE - server sent events
   # POLL
 
-  post "/" do
-    raise params.inspect
-    raise request.body.inspect
-  end
-
-  # jquery every 3 seconds call:
-
   get '/address/:address/balance' do |address|
-    # TODO
-    Ethereum.new(address).balance
+    content_type :json
+    balance = Ethereum.new(address).balance
+    { balance: balance }.to_json
   end
 
   # se balance cambiato: next step
 
+  post "/contracts/register" do
+    # TODO: !! .new(address)
 
-  post "/contract/register" do
-    # params:
-    # address
-    # flight_num
-    # schedu
+    # TODO: scheduled_at?
+    scheduled_at = "2015-10-20 00:00"
+    args = {
+      address:      params[:address],
+      flight_num:   params[:flight_num],
+      scheduled_at: scheduled_at
+    }
+    Ethereum.new(address).call :register, args
   end
 
-
-  post "/contract/invest" do
-    # params:
-    # address
+  post "/contracts/invest" do
+    args = {
+      address:      params[:address],
+    }
+    Ethereum.new(address).call :register, args
   end
 
   get "/invest" do
@@ -63,12 +69,4 @@ class FlyEther < Sinatra::Application
     haml :playground, layout: false
   end
 
-  # web3.setProvider(new web3.providers.HttpProvider('http://flyether:8545')); var coinbase = web3.eth.coinbase;
 end
-
-
-# register
-# | invest
-
-# creiamo gli indirizzi
-#

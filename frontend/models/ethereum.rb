@@ -11,6 +11,14 @@ class Ethereum
     api.balance
   end
 
+  def call
+    api.call
+  end
+
+  def send
+    api.call
+  end
+
   class API # JSON RPC
     include HTTParty
     base_uri GETH_HOST
@@ -23,10 +31,32 @@ class Ethereum
     end
 
     def balance
-      int post m(:getBalance)
+      resp = post m(:getBalance, address)
+      int resp
+    end
+
+    def call(value=nil)
+      data = call_data(value)
+      resp = post m(:call, data)
+    end
+
+    def send(value=nil)
+      data = call_data(value).merge(
+        gas: 1,
+      )
+      resp = post m(:eth_sendTransaction, data)
     end
 
     private
+
+    def call_data(value)
+      data = {
+        # from:
+        to: "0xaddress"
+      }
+      data[:value] = value if value
+      data
+    end
 
     def int(str)
       raise ArgumentError, "Can't cast a null hex to int" if !str || str == ""
@@ -41,10 +71,10 @@ class Ethereum
       response["result"]
     end
 
-    def m(method_name)
+    def m(method_name, params)
       {
         method: "eth_#{method_name}",
-        params: ["#{address}", "latest"],
+        params: [params, "latest"],
         jsonrpc: "2.0",
         id: 1,
       }.to_json

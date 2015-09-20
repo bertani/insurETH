@@ -11,7 +11,7 @@ var init_ether = function() {
 }
 
 var show_step = function(step) {
-  $(".step_"+step).toggleClass("hidden")
+  $(".step_"+step).removeClass("hidden")
   $("body").scrollTop(2000)
 }
 
@@ -48,6 +48,57 @@ var update_address = function() {
 var do_insure = function() {
   $("input[name=flight_num], input[name=insure_amount]").attr("disabled", true)
   show_step(2)
+  watch_balance()
+}
+
+var get_balance = function(address, cb) {
+  return function() {
+    $.getJSON("/address/"+address+"/balance", function(data){
+      cb(data)
+    });
+  }
+}
+
+var action_register = function(balance){
+  var address = localStorage.eth_address
+  console.log("register")
+  $.post("/contracts/register", function(data){
+    console.log("register done", data)
+  })
+}
+
+var action_invest = function(balance){
+  var address = localStorage.eth_address
+  console.log("invest")
+  $.post("/contracts/invest", function(data){
+    console.log("invest done", data)
+  })
+}
+
+var handle_balance_change = function(balance, callback) {
+  var action = $("body").get(0).className
+  if (balance > 0) {
+    if (action == "register") {
+      action_register(balance)
+    } else if (action == "invest") {
+      action_invest(balance)
+    } else {
+      console.error("error, action not recognized:", action)
+    }
+  } else {
+    callback() // continue the watch
+  }
+}
+
+var watch_balance = function() {
+  var address = localStorage.eth_address
+  var callback = function(data) {
+    console.log("balance", data)
+    handle_balance_change(data, function(){
+      _.delay(get_balance(address, callback), 2000)
+    })
+  }
+  _.delay(  get_balance(address, callback), 2000)
 }
 
 var deposit_triggered = function() {
