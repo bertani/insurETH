@@ -42,7 +42,7 @@ var update_insured_totals = function(evt){
 }
 
 var update_address = function() {
-  var address = localStorage.eth_address
+  var address = "0x"+localStorage.eth_address
   $(".deposit_address").html(address)
   $(".deposit_qrcode" ).attr("src", "/qr_codes/"+address+".png")
 }
@@ -80,7 +80,7 @@ var action_invest = function(balance){
 var handle_balance_change = function(balance, callback) {
   var action = $("body").get(0).className
   var balance_changed = balance > 0
-  balance_changed = true // TODO: comment
+  // balance_changed = true // TODO: comment in prod
   if (balance_changed) {
     if (action == "register") {
       action_register(balance)
@@ -97,8 +97,8 @@ var handle_balance_change = function(balance, callback) {
 var watch_balance = function() {
   var address = localStorage.eth_address
   var callback = function(data) {
-    console.log("balance", data)
-    handle_balance_change(data, function(){
+    console.log("balance", data.balance)
+    handle_balance_change(data.balance, function(){
       _.delay(get_balance(address, callback), 2000)
     })
   }

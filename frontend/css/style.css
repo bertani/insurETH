@@ -79,3 +79,7 @@ input[type=button].btn-large {
 .bold {
   font-weight: bold;
 }
+
+.title > h1 > span {
+  font-size: 80%;
+}

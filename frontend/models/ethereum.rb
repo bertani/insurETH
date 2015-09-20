@@ -11,12 +11,12 @@ class Ethereum
     api.balance
   end
 
-  def call(method, args)
-    api.call method, args
+  def ctr_call(method, args)
+    api.ctr_call method, args
   end
 
-  def send(method, args)
-    api.call method, args
+  def ctr_send(method, args)
+    api.ctr_call method, args
   end
 
   class API # JSON RPC
@@ -35,16 +35,22 @@ class Ethereum
       int resp
     end
 
-    def call(value=nil)
+    def ctr_call(method, value=nil)
+      # TODO: method
       data = call_data(value)
-      resp = post m(:call, data)
+      puts "data: #{data}"
+      puts "call: #{m(:call, data)}"
+      resp = post_debug m(:call, data)
+      puts resp.inspect
+      puts resp
+      puts resp.body
     end
 
-    def send(value=nil)
+    def ctr_send(method, value=nil)
       data = call_data(value).merge(
         gas: 1,
       )
-      resp = post m(:eth_sendTransaction, data)
+      resp = post_debug m(:eth_sendTransaction, data)
     end
 
     private
@@ -52,7 +58,7 @@ class Ethereum
     def call_data(value)
       data = {
         # from:
-        to: "0xaddress"
+        to: "0x#{address}"
       }
       data[:value] = value if value
       data
@@ -65,6 +71,11 @@ class Ethereum
 
     def post(body)
       result self.class.post "/",  body: body
+    end
+
+    # FIXME: refactor - catch exception - remove this method
+    def post_debug(body)
+      self.class.post "/",  body: body
     end
 
     def result(response)

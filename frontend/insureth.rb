@@ -1,6 +1,6 @@
 require_relative 'config/env'
 
-class FlyEther < Sinatra::Application
+class InsurETH < Sinatra::Application
   set :public_folder, '.'
   set :views, "#{APP_PATH}/views"
 
@@ -22,7 +22,7 @@ class FlyEther < Sinatra::Application
   post "/address" do
     content_type :json
     address = Geth.new_address
-    qrcode address
+    qrcode "0x#{address}"
     if address
       { address: address }.to_json
     else
@@ -54,14 +54,14 @@ class FlyEther < Sinatra::Application
       scheduled_at: scheduled_at
     }
 
-    Ethereum.new(address).call :register, args
+    Ethereum.new(address).ctr_call :register, args
   end
 
   post "/contracts/invest" do
     args = {
       address:      params[:address],
     }
-    Ethereum.new(address).call :register, args
+    Ethereum.new(address).ctr_call :register, args
   end
 
   get "/invest" do
