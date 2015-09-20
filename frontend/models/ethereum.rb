@@ -1,3 +1,15 @@
+class Web3
+
+  # no time sorry -- shelling out to node
+  def self.invest(address)
+    puts `#{APP_PATH}/node/insureth.js #{address} invest`
+  end
+
+  def self.register(address)
+    puts `#{APP_PATH}/node/insureth.js #{address}`
+  end
+end
+
 class Ethereum
 
   attr_reader :address, :api
@@ -11,6 +23,16 @@ class Ethereum
     api.balance
   end
 
+  def invest(address)
+    Web3.invest(address)
+  end
+
+  def register(address)
+    Web3.register(address)
+  end
+
+
+  #  TODO: deploy
   def ctr_call(method, args)
     api.ctr_call method, args
   end

@@ -46,22 +46,24 @@ class InsurETH < Sinatra::Application
     address = params[:address]
 
     # TODO: scheduled_at?
-    scheduled_at = "2015-10-20 00:00"
+    # scheduled_at = "2015-10-20 00:00"
 
     args = {
       address:      params[:address],
-      flight_num:   params[:flight_num],
-      scheduled_at: scheduled_at
+      # flight_num:   params[:flight_num],
+      # scheduled_at: scheduled_at
     }
+    Ethereum.new(address).register params[:address]
 
-    Ethereum.new(address).ctr_call :register, args
+    # Ethereum.new(address).ctr_call :register, args
   end
 
   post "/contracts/invest" do
-    args = {
-      address:      params[:address],
-    }
-    Ethereum.new(address).ctr_call :register, args
+    # args = {
+    #   address:      params[:address],
+    # }
+    Ethereum.new(address).invest params[:address]
+    # Ethereum.new(address).ctr_call :invest, args
   end
 
   get "/invest" do
