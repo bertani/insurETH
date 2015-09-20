@@ -8,8 +8,14 @@ class Geth
   end
 
   def new_address
-    out = `geth --password #{APP_PATH}/config/password.txt account new`
+    out = `#{geth} --password #{APP_PATH}/config/password.txt account new`
     match = out.match /{(\w+)}/
     address = match && match[1]
+  end
+
+  private
+
+  def geth
+    GETH_PATH
   end
 end

@@ -15,6 +15,12 @@ else
   "v.mkvd.net:8080"
 end
 
+GETH_PATH = if env == "development"
+  "geth"
+else
+  "/root/gopath/src/github.com/ethereum/go-ethereum/build/bin/geth"
+end
+
 
 require_relative "../models/geth"
 require_relative "../models/ethereum"
