@@ -18,7 +18,7 @@ end
 GETH_PATH = if env == "development"
   "geth"
 else
-  "/root/gopath/src/github.com/ethereum/go-ethereum/build/bin/geth"
+  "/home/www/bin/geth"
 end
 
 
