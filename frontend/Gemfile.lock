@@ -1,6 +1,7 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    chunky_png (1.3.3)
     haml (4.0.7)
       tilt
     httparty (0.13.5)
@@ -11,6 +12,10 @@ GEM
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
+    rqrcode (0.4.2)
+    rqrcode_png (0.1.5)
+      chunky_png
+      rqrcode
     sinatra (1.4.6)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -23,6 +28,7 @@ PLATFORMS
 DEPENDENCIES
   haml
   httparty
+  rqrcode_png
   sinatra
 
 BUNDLED WITH

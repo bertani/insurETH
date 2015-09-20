@@ -8,6 +8,10 @@ class FlyEther < Sinatra::Application
     def body_class
       request.path.split("/")[1] || "register"
     end
+
+    def qrcode(string)
+      QR.generate string
+    end
   end
 
   get "/" do
@@ -18,6 +22,7 @@ class FlyEther < Sinatra::Application
   post "/address" do
     content_type :json
     address = Geth.new_address
+    qrcode address
     if address
       { address: address }.to_json
     else
@@ -38,14 +43,17 @@ class FlyEther < Sinatra::Application
 
   post "/contracts/register" do
     # TODO: !! .new(address)
+    address = params[:address]
 
     # TODO: scheduled_at?
     scheduled_at = "2015-10-20 00:00"
+
     args = {
       address:      params[:address],
       flight_num:   params[:flight_num],
       scheduled_at: scheduled_at
     }
+
     Ethereum.new(address).call :register, args
   end
 

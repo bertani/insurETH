@@ -24,3 +24,4 @@ end
 
 require_relative "../models/geth"
 require_relative "../models/ethereum"
+require_relative "../models/qr"

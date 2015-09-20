@@ -11,12 +11,12 @@ class Ethereum
     api.balance
   end
 
-  def call
-    api.call
+  def call(method, args)
+    api.call method, args
   end
 
-  def send
-    api.call
+  def send(method, args)
+    api.call method, args
   end
 
   class API # JSON RPC

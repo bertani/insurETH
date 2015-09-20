@@ -1,1 +1,3 @@
 tmp/restart.txt
+public/qr_codes/*.png
+qr_codes/*.png
