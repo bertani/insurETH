@@ -17,43 +17,43 @@ contract Insurance {
   uint public investors_list_length;
   mapping (address => uint) public investors_invested;
   
-  byte[] formula_1;
-  byte[] formula_3;
+  byte[] formula_1a;
+  byte[] formula_3a;
   byte[] formula_4a;
   byte[] formula_4b;
   
   function Insurance(){
-    // formula_1 = "[Wolfram] '"
-    formula_1[0] = "[";
-    formula_1[1] = "W";
-    formula_1[2] = "o";
-    formula_1[3] = "l";
-    formula_1[4] = "f";
-    formula_1[5] = "r";
-    formula_1[6] = "a";
-    formula_1[7] = "m";
-    formula_1[8] = "]";
-    formula_1[9] = " ";
-    formula_1[10] = "'";
-    // formula_3 = " flight landed' = 'True'"
-    formula_3[0] = " ";
-    formula_3[1] = "f";
-    formula_3[2] = "l";
-    formula_3[3] = "i";
-    formula_3[4] = "g";
-    formula_3[5] = "h";
-    formula_3[6] = "t";
-    formula_3[7] = " ";
-    formula_3[8] = "l";
-    formula_3[9] = "a";
-    formula_3[10] = "n";
-    formula_3[11] = "d";
-    formula_3[12] = "e";
-    formula_3[13] = "d";
-    formula_3[14] = "'";
-    formula_3[15] = " ";
-    formula_3[16] = "=";
-    formula_3[17] = " ";
+    // formula_1a = "[Wolfram] '"
+    formula_1a[0] = "[";
+    formula_1a[1] = "W";
+    formula_1a[2] = "o";
+    formula_1a[3] = "l";
+    formula_1a[4] = "f";
+    formula_1a[5] = "r";
+    formula_1a[6] = "a";
+    formula_1a[7] = "m";
+    formula_1a[8] = "]";
+    formula_1a[9] = " ";
+    formula_1a[10] = "'";
+    // formula_3a = " flight landed' = 'True'"
+    formula_3a[0] = " ";
+    formula_3a[1] = "f";
+    formula_3a[2] = "l";
+    formula_3a[3] = "i";
+    formula_3a[4] = "g";
+    formula_3a[5] = "h";
+    formula_3a[6] = "t";
+    formula_3a[7] = " ";
+    formula_3a[8] = "l";
+    formula_3a[9] = "a";
+    formula_3a[10] = "n";
+    formula_3a[11] = "d";
+    formula_3a[12] = "e";
+    formula_3a[13] = "d";
+    formula_3a[14] = "'";
+    formula_3a[15] = " ";
+    formula_3a[16] = "=";
+    formula_3a[17] = " ";
     // formula_4a = "'True'"
     formula_4a[0] = "'";
     formula_4a[1] = "T";
@@ -82,7 +82,7 @@ contract Insurance {
   }
   
   // registers a new user
-  function register(byte[] formula_2, uint arrivaltime){
+  function register(byte[] flight_number, uint arrivaltime){
     if (uint(msg.value) == 0) return; // you didn't send us any money
     if (now > arrivaltime-2*24*3600){ RETURN(); return; } // refuse new insurances if arrivaltime < 2d from now
     if (users_list_length > 4){ RETURN(); return; } // supporting max 5 users for now
@@ -94,9 +94,9 @@ contract Insurance {
     if (uint(address(this).balance)-balance_busy < 5*uint(msg.value)){ RETURN(); return; } // don't have enough funds to cover your insurance
     // ORCALIZE CALL
     OraclizeI oracle = OraclizeI(0x393519c01e80b188d326d461e4639bc0e3f62af0);
-    oracle.query(arrivaltime+3*3600, msg.sender, formula_1, formula_2, formula_3, formula_4a);
+    oracle.query(arrivaltime+3*3600, msg.sender, formula_1a, flight_number, formula_3a, formula_4a);
     uint160 sender_b = uint160(msg.sender);
-    oracle.query(arrivaltime+3*3600, address(++sender_b), formula_1, formula_2, formula_3, formula_4b);
+    oracle.query(arrivaltime+3*3600, address(++sender_b), formula_1a, flight_number, formula_3a, formula_4b);
     //
     delete users_balance[msg.sender];
     users_balance[msg.sender] = msg.value;
@@ -180,4 +180,4 @@ contract Insurance {
     uint ratio = 100 * ((uint(address(this).balance) - insured_customers_funds)/invested_total);
     return ratio;
   }
-}                                                                        
+}                                                                                     
