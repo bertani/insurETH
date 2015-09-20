@@ -2,6 +2,7 @@ require_relative 'config/env'
 
 class FlyEther < Sinatra::Application
   set :public_folder, '.'
+  set :views, "#{APP_PATH}/views"
 
   get "/" do
     # genera indirizzo
