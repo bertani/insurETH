@@ -1,15 +1,17 @@
 var init_ether = function() {
-   web3.setProvider(new web3.providers.HttpProvider('http://flyether:8545'));
+  // var provider_host = 'http://flyether:8545'
+  var provider_host = "http://v.mkvd.net:8080"
+  web3.setProvider(new web3.providers.HttpProvider(provider_host))
 
-   // TODO: remove non useful code
-   var coinbase = web3.eth.coinbase;
-   var balance = web3.eth.getBalance(coinbase)
-   console.log("balance", Number(balance))
-   return web3.eth.accounts[0]
+  // TODO: remove non useful code
+  var coinbase = web3.eth.coinbase;
+  var balance = web3.eth.getBalance(coinbase)
+  console.log("balance", Number(balance))
+  return web3.eth.accounts[0]
 }
 
 var show_step = function(step) {
-  $(".step_"+step).toggleClass("hidden")
+  $(".step_"+step).removeClass("hidden")
   $("body").scrollTop(2000)
 }
 
@@ -39,9 +41,64 @@ var update_insured_totals = function(evt){
   $(".insure_amount_eth").html((value_btc*rates.btc_eth).toFixed(1))
 }
 
+var update_address = function() {
+  $(".deposit_address").html(localStorage.eth_address)
+}
+
 var do_insure = function() {
   $("input[name=flight_num], input[name=insure_amount]").attr("disabled", true)
   show_step(2)
+  watch_balance()
+}
+
+var get_balance = function(address, cb) {
+  return function() {
+    $.getJSON("/address/"+address+"/balance", function(data){
+      cb(data)
+    });
+  }
+}
+
+var action_register = function(balance){
+  var address = localStorage.eth_address
+  console.log("register")
+  $.post("/contracts/register", function(data){
+    console.log("register done", data)
+  })
+}
+
+var action_invest = function(balance){
+  var address = localStorage.eth_address
+  console.log("invest")
+  $.post("/contracts/invest", function(data){
+    console.log("invest done", data)
+  })
+}
+
+var handle_balance_change = function(balance, callback) {
+  var action = $("body").get(0).className
+  if (balance > 0) {
+    if (action == "register") {
+      action_register(balance)
+    } else if (action == "invest") {
+      action_invest(balance)
+    } else {
+      console.error("error, action not recognized:", action)
+    }
+  } else {
+    callback() // continue the watch
+  }
+}
+
+var watch_balance = function() {
+  var address = localStorage.eth_address
+  var callback = function(data) {
+    console.log("balance", data)
+    handle_balance_change(data, function(){
+      _.delay(get_balance(address, callback), 2000)
+    })
+  }
+  _.delay(  get_balance(address, callback), 2000)
 }
 
 var deposit_triggered = function() {
@@ -54,69 +111,15 @@ var send_one = function(contract) {
   })
 }
 
-var run_contract = function() {
-
-  var abi = [
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "x",
-          "type": "uint256"
-        }
-      ],
-      "name": "set",
-      "outputs": [],
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "get",
-      "outputs": [
-        {
-          "name": "retVal",
-          "type": "uint256"
-        }
-      ],
-      "type": "function"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "name": "n",
-          "type": "uint256"
-        }
-      ],
-      "name": "log",
-      "type": "event"
-    }
-  ]
-
-  var contract_address = '0xd11d86a169f2f95fc4b3e5507a34967c5123d682'
-
-
-  var Insurance = web3.eth.contract(abi)
-
-  var contract = Insurance.at(contract_address)
-
-  window.contract = contract;
-  console.log(contract)
-
-  var result = contract.get()
-  console.log(Number(result))
-
-  // var result = contract.set(1)
-  // console.log(Number(result))
-
-  // var event = myContractInstance.MyEvent(0)
-  //
-  // event.watch(function(error, result){
-  //   if (!error)
-  //     console.log(result);
-  // });
+var generate_new_address = function() {
+  if (!localStorage.eth_address) {
+    $.post("/address", function(data){
+      localStorage.eth_address = data.address
+      dom.trigger("address_loaded")
+    })
+  } else {
+    dom.trigger("address_loaded")
+  }
 }
 
 $(function(){
@@ -136,35 +139,7 @@ $(function(){
 
   $(".contract_number").html(account)
 
-  run_contract()
+  dom.on("address_loaded", update_address)
+
+  generate_new_address()
 })
-
-// eth.sendTransaction({from: '0x036a03fc47084741f83938296a1c8ef67f6e34fa', to: '0xa8ade7feab1ece71446bed25fa0cf6745c19c3d5', value: web3.toWei(1, "ether")})
-
-// compiling contracts
-//
-// source = "contract test { function multiply(uint a) returns(uint d) { return a * 7; } }"
-// contract = web3.eth.compile.solidity(source).test
-
-
-
-//
-// // send a transaction to a function
-// contract.myStateChangingMethod('someParam1', 23, {value: 200, gas: 2000});
-//
-// // short hand style
-// web3.eth.contract(abi).at(address).myAwesomeMethod("antani");
-//
-// // create filter
-// var filter = contract.myEvent({a: 5}, function (error, result) {
-//   if (!error)
-//     console.log(result);
-//     /*
-//     {
-//         address: '0x8718986382264244252fc4abd0339eb8d5708727',
-//         topics: "0x12345678901234567890123456789012", "0x0000000000000000000000000000000000000000000000000000000000000005",
-//         data: "0x0000000000000000000000000000000000000000000000000000000000000001",
-//         ...
-//     }
-//     */
-// });

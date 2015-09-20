@@ -2,7 +2,7 @@
 %html{:lang => "en"}
   %head
     %meta{:charset => "utf-8"}/
-    %title Your page title here :)
+    %title FlyEther
     %meta{:content => "", :name => "description"}/
     %meta{:content => "", :name => "author"}/
     %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}/
@@ -11,13 +11,10 @@
     %link{:href => "/css/skeleton.css",   :rel => "stylesheet"}/
     %link{:href => "/css/style.css",      :rel => "stylesheet"}/
     %link{:href => "/images/favicon.png", :rel => "icon", :type => "image/png"}/
-  %body
-    .six.column.box.big_m.clouds.white-text
-      %h1 FlyEther
-      %p Insure your flight with Ethereum
-
+  %body{ class: body_class }
     = yield
 
     %script{:src => "/bower_components/web3/dist/web3.js", :type => "text/javascript"}
     %script{:src => "/js/vendor/zepto.js", :type => "text/javascript"}
+    %script{:src => "/js/vendor/underscore.js", :type => "text/javascript"}
     %script{:src => "/js/flyether.js", :type => "text/javascript"}

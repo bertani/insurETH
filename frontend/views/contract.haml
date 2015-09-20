@@ -1,3 +1,14 @@
-%h2 Contract #{@contract_id}
+.six.column.box.big_m.clouds.white-text
+  %h1 FlyEther
+  %p View your active contract
 
-%p hello world
+.six.column.box
+  %p.bold Contract
+  %p #{@contract_id}
+  .spacer20
+  %p todo
+
+  %p Your address:
+  %p.bold.deposit_address (loading...)
+
+  -# TODO: we know the user's address through the localStorage
