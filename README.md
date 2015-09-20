@@ -1,4 +1,4 @@
-# 
+#
 
 http://insureth.org
 
@@ -8,17 +8,28 @@ http://insureth.org
 
 ## Frontend
 
+prereqs:
+
+
+ruby required
+
+node required
+
 ### Install dependencies
 
-    bower install web3
+    bower install
+    bundle
 
 ### Run app
 
-    python -m SimpleHTTPServer 3000
+    rackup
 
 then connect to:
 
 http://localhost:3000
+
+
+you need also to host geth and modify the configs
 
 
 
