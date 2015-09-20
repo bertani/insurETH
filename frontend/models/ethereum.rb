@@ -1,3 +1,15 @@
+class Web3
+
+  # no time sorry -- shelling out to node
+  def self.invest(address)
+    puts `#{APP_PATH}/node/insureth.js #{address} invest`
+  end
+
+  def self.register(address)
+    puts `#{APP_PATH}/node/insureth.js #{address}`
+  end
+end
+
 class Ethereum
 
   attr_reader :address, :api
@@ -11,12 +23,22 @@ class Ethereum
     api.balance
   end
 
-  def call
-    api.call
+  def invest(address)
+    Web3.invest(address)
   end
 
-  def send
-    api.call
+  def register(address)
+    Web3.register(address)
+  end
+
+
+  #  TODO: deploy
+  def ctr_call(method, args)
+    api.ctr_call method, args
+  end
+
+  def ctr_send(method, args)
+    api.ctr_call method, args
   end
 
   class API # JSON RPC
@@ -35,16 +57,22 @@ class Ethereum
       int resp
     end
 
-    def call(value=nil)
+    def ctr_call(method, value=nil)
+      # TODO: method
       data = call_data(value)
-      resp = post m(:call, data)
+      puts "data: #{data}"
+      puts "call: #{m(:call, data)}"
+      resp = post_debug m(:call, data)
+      puts resp.inspect
+      puts resp
+      puts resp.body
     end
 
-    def send(value=nil)
+    def ctr_send(method, value=nil)
       data = call_data(value).merge(
         gas: 1,
       )
-      resp = post m(:eth_sendTransaction, data)
+      resp = post_debug m(:eth_sendTransaction, data)
     end
 
     private
@@ -52,7 +80,7 @@ class Ethereum
     def call_data(value)
       data = {
         # from:
-        to: "0xaddress"
+        to: "0x#{address}"
       }
       data[:value] = value if value
       data
@@ -65,6 +93,11 @@ class Ethereum
 
     def post(body)
       result self.class.post "/",  body: body
+    end
+
+    # FIXME: refactor - catch exception - remove this method
+    def post_debug(body)
+      self.class.post "/",  body: body
     end
 
     def result(response)

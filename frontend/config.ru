@@ -1,3 +1,3 @@
-require_relative 'flyether.rb'
+require_relative 'insureth.rb'
 
-run FlyEther
+run InsurETH
