@@ -62,13 +62,13 @@ contract Insurance {
     formula_4a[4] = "e";
     formula_4a[5] = "'";
     // formula_4b = "'False'"
-    formula_4a[0] = "'";
-    formula_4a[1] = "F";
-    formula_4a[2] = "a";
-    formula_4a[3] = "l";
-    formula_4a[4] = "s";
-    formula_4a[5] = "e";
-    formula_4a[6] = "'";
+    formula_4b[0] = "'";
+    formula_4b[1] = "F";
+    formula_4b[2] = "a";
+    formula_4b[3] = "l";
+    formula_4b[4] = "s";
+    formula_4b[5] = "e";
+    formula_4b[6] = "'";
   }
 
   // just a function to send the funds back to the sending address, another option would be to STOP execution by throwing an exception here
@@ -180,4 +180,4 @@ contract Insurance {
     uint ratio = 100 * ((uint(address(this).balance) - insured_customers_funds)/invested_total);
     return ratio;
   }
-}                                                                       
+}                                                                        
