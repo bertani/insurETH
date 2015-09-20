@@ -1,0 +1,26 @@
+{
+  "name": "insureth",
+  "version": "0.1",
+  "homepage": "https://github.com/bertani/hacktheblock",
+  "authors": [
+    "Francesco 'makevoid' Canessa <makevoid@gmail.com>",
+    "Thomas Bertani (@bertani)",
+  ],
+  "description": "awesome ethereum insurance",
+  "main": "js/bundle.js",
+  "moduleType": [
+    "es6",
+    "node"
+  ],
+  "license": "Apache",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "web3": "~0.13.0"
+  }
+}

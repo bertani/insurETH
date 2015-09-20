@@ -1,0 +1,29 @@
+.six.column.box.big_m.clouds.white-text
+  %h1 FlyEther
+  %p Invest with FlyEther
+
+.six.column.box
+  %p
+    FlyEther lets you invest into an automated flight insurance service
+
+.six.column.box
+  %h4 Deposit 250 ETH to address:
+  %img{:src => "./images/qrcode.gif", :width => "200px"}/
+  %p
+    %span.deposit_address
+      / loading...
+      0x0462838f4e30223d51310c9725c51217481141c2
+  %a.deposit-done.button.button-primary
+    temp: deposit done
+
+.step_3.hidden
+  .six.column.box.blue2.white-text.link-color-blue
+    %p You invested successfully!
+    .spacer20
+    %a.button.button-primary{ href: "/contracts/0x154c02594e63e09e68ec8526d22f1397cfb8c415ac5a451f6b7a573435769454" }
+      Check the contract
+      %span.contract_number
+        (loading...)
+        0x154c02594e63e09e68ec8526d22f1397cfb8c415ac5a451f6b7a573435769454
+  .six.column.box
+    %p Thanks for using FlyEther.
