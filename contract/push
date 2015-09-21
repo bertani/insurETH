@@ -1,0 +1,14 @@
+#!/usr/bin/env python
+
+import requests, sys, pprint, json
+
+url = "http://v.mkvd.net:8080"
+#url = "http://localhost:8080"
+
+
+#r = requests.post(url, data=json.dumps({"jsonrpc":"2.0","method":"eth_compileSolidity","params":file("insurance.sol").read()})).json()
+#pprint.pprint(r)
+
+r = requests.post(url, data=json.dumps({"jsonrpc":"2.0","method":"eth_sendTransaction","params":[{"from":"0x0462838f4e30223d51310c9725c51217481141c2","gas":"900000","data":sys.argv[1]}],"id":1})).json()
+pprint.pprint(r)
+
