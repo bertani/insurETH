@@ -2,6 +2,9 @@
 Copyright (C) 2015 Thomas Bertani - Oraclize srl
 */
 
+
+
+// https://www.oraclize.it/service/api
 contract OraclizeI {
     function query(uint timestamp, byte[] formula_1, byte[] formula_2, byte[] formula_3, byte[] formula_4){}
     function query(uint timestamp, address param, byte[] formula_1, byte[] formula_2, byte[] formula_3, byte[] formula_4){}
