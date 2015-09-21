@@ -4,7 +4,7 @@
 #### Hack the Block London 2015 Hackathon
 #### Programmable Assets challenge Winner
 
-#### http://insureth.mkvd.net
+#### http://insureth.mkvd.net (demo)
 
 next: insureth.org ?
 
