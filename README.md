@@ -6,9 +6,17 @@
 
 #### http://insureth.mkvd.net (demo)
 
+<a href="http://insureth.mkvd.net">
+![](http://mkvphoto.s3.amazonaws.com/ethereum/insureth3.png)
+</a>
+
 next: insureth.org ?
 
 Presentation (slides): http://mkvd.s3.amazonaws.com/apps/InsurEth.pdf
+
+<a href="http://mkvd.s3.amazonaws.com/apps/InsurEth.pdf">
+![](http://mkvphoto.s3.amazonaws.com/ethereum/slides_eth.png)
+</a>
 
 ## Frontend
 
