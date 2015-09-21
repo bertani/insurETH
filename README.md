@@ -3,7 +3,8 @@
 ### Hack the Block London 2015 Hackathon
 ### Programmable Assets challenge
 
-http://insureth.mkvd.net
+#### http://insureth.mkvd.net
+
 next: insureth.org ?
 
 Presentation (slides): http://mkvd.s3.amazonaws.com/apps/InsurEth.pdf
