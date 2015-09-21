@@ -28,7 +28,7 @@ node required
 
 then connect to:
 
-http://localhost:3000
+<http://localhost:3000>
 
 
 you need also to host geth and modify the configs
