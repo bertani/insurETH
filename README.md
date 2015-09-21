@@ -1,7 +1,8 @@
 # InsurETH
+### Peer-to-peer insurance based on an Ethereum smart-contract
 
-### Hack the Block London 2015 Hackathon
-### Programmable Assets challenge
+#### Hack the Block London 2015 Hackathon
+#### Programmable Assets challenge Winner
 
 #### http://insureth.mkvd.net
 
