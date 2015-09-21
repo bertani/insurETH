@@ -1,15 +1,18 @@
-#
+# InsurETH
+### Peer-to-peer insurance based on an Ethereum smart-contract
 
-http://insureth.org
+#### Hack the Block London 2015 Hackathon
+#### Programmable Assets challenge Winner
 
-### Hack the Block London 2015 Hackathon
-### Programmable Assets challenge
+#### http://insureth.mkvd.net (demo)
 
+next: insureth.org ?
+
+Presentation (slides): http://mkvd.s3.amazonaws.com/apps/InsurEth.pdf
 
 ## Frontend
 
 prereqs:
-
 
 ruby required
 
@@ -26,7 +29,7 @@ node required
 
 then connect to:
 
-http://localhost:3000
+<http://localhost:3000>
 
 
 you need also to host geth and modify the configs
@@ -42,4 +45,4 @@ Install it, configure it and add some ethers to resolve the contract
 
 run the server:
 
-geth --rpc --rpcaddr="v.mkvd.net" --rpcport="8080" --rpccorsdomain="*" --unlock=0
+    geth --rpc --rpcaddr="YOUR_HOST" --rpcport="8080" --rpccorsdomain="*" --unlock=0
