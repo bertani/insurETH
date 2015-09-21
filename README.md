@@ -44,4 +44,4 @@ Install it, configure it and add some ethers to resolve the contract
 
 run the server:
 
-geth --rpc --rpcaddr="v.mkvd.net" --rpcport="8080" --rpccorsdomain="*" --unlock=0
+    geth --rpc --rpcaddr="YOUR_HOST" --rpcport="8080" --rpccorsdomain="*" --unlock=0
